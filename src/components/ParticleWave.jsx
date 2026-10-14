@@ -51,11 +51,11 @@ export default function ParticleWave({ className = '' }) {
       ctx.clearRect(0, 0, width, height);
 
       const fov = 340;
-      const cameraY = -75;
-      const centerY = height * 0.62;
-      const gridWidth = width * 1.45;
+      const cameraY = -95;
+      const centerY = height * 0.54;
+      const gridWidth = width * 1.5;
       const stepX = gridWidth / COLS;
-      const stepZ = 16.5;
+      const stepZ = 17.5;
 
       // We'll store projected points to optionally draw wave crest connection filaments
       const projectedGrid = [];
@@ -74,10 +74,10 @@ export default function ParticleWave({ className = '' }) {
           const flowX = normX * 6.5 - time * 1.8;
           const waveZ = normZ * 4.2 + time * 0.4;
 
-          // Harmonic interference waves creating organic ocean-like undulating dunes
-          const wave1 = Math.sin(flowX + waveZ) * 44;
-          const wave2 = Math.cos(flowX * 1.6 - waveZ * 0.9) * 24;
-          const wave3 = Math.sin((flowX * 2.8 + normZ * 3.2)) * 12;
+          // Higher vertical amplitude for dramatic, tall wave crests matching reference
+          const wave1 = Math.sin(flowX + waveZ) * 82;
+          const wave2 = Math.cos(flowX * 1.6 - waveZ * 0.9) * 44;
+          const wave3 = Math.sin((flowX * 2.8 + normZ * 3.2)) * 22;
           const rawHeight = wave1 + wave2 + wave3;
 
           // Loading reveal sweep: wave sweeps from left side to right side
@@ -103,8 +103,8 @@ export default function ParticleWave({ className = '' }) {
           }
 
           // Depth-based particle radius
-          const elevationNorm = (rawHeight + 80) / 160; // 0 to 1
-          const baseRadius = (1.2 + scale * 1.8 + elevationNorm * 1.4) * revealFactor;
+          const elevationNorm = (rawHeight + 148) / 296; // 0 to 1
+          const baseRadius = (1.3 + scale * 2.0 + elevationNorm * 1.6) * revealFactor;
           const alpha = Math.min(0.95, Math.max(0.12, scale * 1.15 * (0.5 + elevationNorm * 0.7))) * revealFactor;
 
           projectedGrid[r][c] = { x: projX, y: projY, elevation: rawHeight, alpha, radius: baseRadius, normX };
@@ -117,7 +117,7 @@ export default function ParticleWave({ className = '' }) {
         ctx.beginPath();
         for (let c = 0; c < COLS; c++) {
           const pt = projectedGrid[r][c];
-          if (pt && pt.elevation > 10) { // Only high wave crests
+          if (pt && pt.elevation > 22) { // Only high wave crests
             if (!inPath) {
               ctx.moveTo(pt.x, pt.y);
               inPath = true;
@@ -129,7 +129,7 @@ export default function ParticleWave({ className = '' }) {
           }
         }
         if (inPath) {
-          ctx.strokeStyle = `rgba(168, 85, 247, ${0.12 * Math.min(1, loadProgress)})`;
+          ctx.strokeStyle = `rgba(168, 85, 247, ${0.14 * Math.min(1, loadProgress)})`;
           ctx.lineWidth = 1;
           ctx.stroke();
         }
@@ -150,17 +150,17 @@ export default function ParticleWave({ className = '' }) {
           ctx.beginPath();
           ctx.arc(x, y, radius, 0, Math.PI * 2);
 
-          if (elevation > 28) {
+          if (elevation > 50) {
             // Bright crest: luminous white-pink core
             ctx.fillStyle = `rgba(244, 114, 182, ${alpha * 0.95})`;
-            ctx.shadowColor = 'rgba(236, 72, 153, 0.6)';
-            ctx.shadowBlur = radius * 3;
-          } else if (elevation > 2) {
+            ctx.shadowColor = 'rgba(236, 72, 153, 0.65)';
+            ctx.shadowBlur = radius * 3.5;
+          } else if (elevation > 10) {
             // Mid crest: Electric Violet / Purple
             ctx.fillStyle = `rgba(139, 92, 246, ${alpha * 0.85})`;
-            ctx.shadowColor = 'rgba(124, 58, 237, 0.4)';
-            ctx.shadowBlur = radius * 2;
-          } else if (elevation > -25) {
+            ctx.shadowColor = 'rgba(124, 58, 237, 0.45)';
+            ctx.shadowBlur = radius * 2.5;
+          } else if (elevation > -45) {
             // Slope: Indigo / Lavender
             ctx.fillStyle = `rgba(99, 102, 241, ${alpha * 0.75})`;
             ctx.shadowBlur = 0;
@@ -178,7 +178,7 @@ export default function ParticleWave({ className = '' }) {
           ctx.fill();
 
           // Reset shadow for next particle if set
-          if (elevation > 2) {
+          if (elevation > 10) {
             ctx.shadowBlur = 0;
           }
         }
@@ -212,8 +212,8 @@ export default function ParticleWave({ className = '' }) {
     <div className={`particle-wave-stage absolute inset-0 overflow-hidden pointer-events-none select-none z-0 ${className}`} aria-hidden="true">
       <canvas ref={canvasRef} className="w-full h-full block" />
       {/* Soft gradient fade to top and bottom to seamlessly blend with white background */}
-      <div className="absolute top-0 left-0 right-0 h-32 bg-gradient-to-b from-white via-white/50 to-transparent pointer-events-none" />
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-white via-white/50 to-transparent pointer-events-none" />
+      <div className="absolute top-0 left-0 right-0 h-44 bg-gradient-to-b from-white via-white/40 to-transparent pointer-events-none" />
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white via-white/40 to-transparent pointer-events-none" />
     </div>
   );
 }

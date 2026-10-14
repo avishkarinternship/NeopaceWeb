@@ -125,7 +125,7 @@ export default function HeroSection() {
       {/* 3D Iridescent Particle Wave flowing from left to right */}
       <div 
         ref={waveRef}
-        className="absolute bottom-0 left-0 right-0 top-52 sm:top-60 md:top-68 w-full h-[380px] sm:h-[460px] md:h-[520px] overflow-hidden pointer-events-none select-none z-0"
+        className="absolute bottom-0 left-0 right-0 top-32 sm:top-36 md:top-44 w-full h-[520px] sm:h-[620px] md:h-[720px] lg:h-[780px] overflow-hidden pointer-events-none select-none z-0"
       >
         <ParticleWave />
       </div>

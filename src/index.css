@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&display=swap');
+@import "tailwindcss";
+
+:root {
+  --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+  --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+
+  --color-bg-pure: #ffffff;
+  --color-bg-soft: #fcfbfe;
+  
+  --color-text-dark: #121324;
+  --color-text-subtle: #676b89;
+  --color-text-muted: #9498b3;
+
+  --color-primary: #5833ef;
+  --color-primary-light: #7b5aff;
+  --color-magenta: #c841c2;
+  --color-pink: #e4429f;
+  --color-cyan: #38bdf8;
+
+  --glass-card-bg: rgba(255, 255, 255, 0.85);
+  --glass-card-border: rgba(226, 232, 240, 0.8);
+  --glass-card-shadow: 0 10px 30px -10px rgba(100, 70, 190, 0.06), 0 0 1px 1px rgba(255, 255, 255, 0.9) inset;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg-pure);
+  color: var(--color-text-dark);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  width: 100%;
+}
+
+/* Gradient typography */
+.gradient-headline {
+  background: linear-gradient(135deg, #7c3aed 0%, #b23ccf 50%, #db2777 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-headline-alt {
+  background: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Crisp Clean Glassmorphism Cards */
+.mockup-card {
+  background: var(--glass-card-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--glass-card-border);
+  box-shadow: var(--glass-card-shadow);
+  border-radius: 20px;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mockup-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -12px rgba(100, 70, 190, 0.12), 0 0 1px 1px rgba(255, 255, 255, 1) inset;
+  border-color: rgba(180, 160, 240, 0.6);
+}
+
+/* Floating animation */
+@keyframes softFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+
+.animate-soft-float {
+  animation: softFloat 4s ease-in-out infinite;
+}
+
+/* Shimmer border */
+@keyframes subtlePulse {
+  0%, 100% { opacity: 0.85; }
+  50% { opacity: 1; filter: drop-shadow(0 0 25px rgba(168, 85, 247, 0.3)); }
+}
+
+.animate-glow-pulse {
+  animation: subtlePulse 3.5s ease-in-out infinite;
+}
+
+/* Animated Flowing SVG Wave (Left-to-Right & Sparkles) */
+.flowing-wave-stage {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.flowing-wave-svg {
+  position: absolute;
+  width: 200%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  overflow: visible;
+  will-change: transform;
+}
+
+.flow-track {
+  will-change: transform;
+}
+
+/* Continuous Left-to-Right translation: from -50% to 0% */
+.flow-track-slow {
+  animation: flowLeftToRight 28s linear infinite;
+}
+
+.flow-track-main {
+  animation: flowLeftToRight 18s linear infinite;
+}
+
+.flow-track-fast {
+  animation: flowLeftToRight 12s linear infinite;
+}
+
+@keyframes flowLeftToRight {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0%, 0, 0);
+  }
+}
+
+/* Sparkles Layer */
+.sparkles-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.sparkle-particle {
+  position: absolute;
+  transform-origin: center;
+  will-change: transform, opacity;
+  animation: sparkleTwinkle ease-in-out infinite, sparkleDrift ease-in-out infinite;
+}
+
+@keyframes sparkleTwinkle {
+  0%, 100% {
+    transform: scale(0.2) rotate(0deg);
+    opacity: 0.15;
+  }
+  50% {
+    transform: scale(1.2) rotate(90deg);
+    opacity: 1;
+  }
+}
+
+@keyframes sparkleDrift {
+  0% {
+    translate: -15px 0px;
+  }
+  50% {
+    translate: 15px -8px;
+  }
+  100% {
+    translate: -15px 0px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flow-track,
+  .sparkle-particle {
+    animation: none;
+  }
+}
